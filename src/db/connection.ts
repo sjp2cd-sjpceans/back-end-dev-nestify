@@ -1,12 +1,17 @@
 import mysql from 'mysql2/promise';
 import * as DotEnv from 'dotenv';
+import * as fs from 'fs';
+import * as path from 'path'
 
-export const env_file =
-  process.env.NODE_ENV === 'production'
-  ? '.env.production'
+const root_dir: string = path.resolve(__dirname, '../../'); 
+
+export const env_file: string = process.env.NODE_ENV === 'production'
+  ? (fs.existsSync(path.join(root_dir, '.env.production')) 
+      ? path.join(root_dir, '.env.production') 
+      : path.join(root_dir, '.env'))
   : process.env.NODE_ENV === 'test'
-    ? '.env.test'
-    : '.env.development';
+    ? path.join(root_dir, '.env.test')
+    : path.join(root_dir, '.env.development');
 
 DotEnv.config({ path: env_file });
 
