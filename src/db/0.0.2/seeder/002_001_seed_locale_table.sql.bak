@@ -1,0 +1,68 @@
+START TRANSACTION;
+
+INSERT INTO country (
+    id, name, code, currency_symbol
+) VALUES
+    (1,  'United States',     'US',  '$'),
+    (2,  'Canada',            'CA',  'CA$'),
+    (3,  'United Kingdom',    'UK',  '£'),
+    (4,  'Germany',           'DE',  '€'),
+    (5,  'France',            'FR',  '€'),
+    (6,  'Japan',             'JP',  '¥'),
+    (7,  'Australia',         'AU',  'A$'),
+    (8,  'Philippines',       'PH',  '₱'),
+    (9,  'India',             'IN',  '₹'),
+    (10, 'Brazil',            'BR',  'R$'),
+    (11, 'South Africa',      'ZA',  'R'),
+    (12, 'Mexico',            'MX',  'MX$')
+ON DUPLICATE KEY UPDATE
+    name            = VALUES(name),
+    code            = VALUES(code),
+    currency_symbol = VALUES(currency_symbol),
+    updated_at      = CURRENT_TIMESTAMP;
+
+INSERT INTO address (
+    id, unit_number, street, city, country_id, zip_code
+) VALUES
+    (1,  '350',    '5th Ave',              'New York',    1, '10118'),
+    (2,  NULL,     '24 Sussex Dr',         'Ottawa',      2, 'K1M 1M4'),
+    (3,  NULL,     '10 Downing St',        'London',      3, 'SW1A 2AA'),
+    (4,  NULL,     'Pariser Platz',        'Berlin',      4, '10117'),
+    (5,  NULL,     '55 Rue du Faubourg...', 'Paris',      5, '75008'),
+    (6,  NULL,     '1 Chome-1-2 Oshiage',  'Tokyo',       6, '131-0045'),
+    (7,  NULL,     '1 Macquarie St',       'Sydney',      7, '2000'),
+    (8,  NULL,     '10 Carlos Palanca Sr', 'Manila',      8, '1000'),
+    (9,  NULL,     'Rashtrapati Bhavan',   'New Delhi',   9, '110004'),
+    (10, NULL,     'Praça dos Três Poderes','Brasília',   10,'70150-900'),
+    (11, NULL,     'Union Buildings',      'Pretoria',    11,'0002'),
+    (12, NULL,     'Zócalo',               'Mexico City', 12,'06000')
+ON DUPLICATE KEY UPDATE
+    unit_number = VALUES(unit_number),
+    street      = VALUES(street),
+    city        = VALUES(city),
+    country_id  = VALUES(country_id),
+    zip_code    = VALUES(zip_code),
+    updated_at  = CURRENT_TIMESTAMP;
+
+INSERT INTO map_coordinate (
+    id, latitude, longitude, address_id
+) VALUES
+    (1,  40.712776,  -74.005974, 1),
+    (2,  45.421531,  -75.697193, 2),
+    (3,  51.503364,   -0.127625, 3),
+    (4,  52.516276,   13.377702, 4),
+    (5,  48.870849,    2.316900, 5),
+    (6,  35.710063,  139.810700, 6),
+    (7, -33.859972,  151.212000, 7),
+    (8,  14.583333,  120.966667, 8),
+    (9,  28.614179,   77.199043, 9),
+    (10, -15.799600, -47.864550,10),
+    (11, -25.746111,  28.188056,11),
+    (12, 19.432608,  -99.133209,12)
+ON DUPLICATE KEY UPDATE
+    latitude   = VALUES(latitude),
+    longitude  = VALUES(longitude),
+    address_id = VALUES(address_id),
+    updated_at = CURRENT_TIMESTAMP;
+    
+COMMIT;

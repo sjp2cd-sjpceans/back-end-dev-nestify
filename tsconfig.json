@@ -8,9 +8,10 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "@dev-nestify/*": ["src/*"]
+      "@dev_nestify/*": ["src/*"]
     }
   },
   "include": ["src/**/*"],

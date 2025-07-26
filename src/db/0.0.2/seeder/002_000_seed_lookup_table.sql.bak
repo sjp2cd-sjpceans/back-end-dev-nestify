@@ -1,0 +1,50 @@
+START TRANSACTION;
+
+INSERT INTO lookup_property_type (id, name) VALUES
+  (1, 'residential'),
+  (2, 'commercial'),
+  (3, 'land')
+ON DUPLICATE KEY UPDATE name = VALUES(name);
+
+INSERT INTO lookup_appointment_type (id, name) VALUES
+  (1, 'viewing'),
+  (2, 'consultation'),
+  (3, 'inspection')
+ON DUPLICATE KEY UPDATE name = VALUES(name);
+
+INSERT INTO lookup_notification_type (id, name) VALUES
+  (1, 'appointment'),
+  (2, 'message'),
+  (3, 'property_update')
+ON DUPLICATE KEY UPDATE name = VALUES(name);
+
+INSERT INTO lookup_status (id, name) VALUES
+  (1, 'available'),
+  (2, 'sold'),
+  (3, 'pending'),
+  (4, 'rented'),
+  (5, 'approved'),
+  (6, 'completed'),
+  (7, 'cancelled')
+ON DUPLICATE KEY UPDATE name = VALUES(name);
+
+INSERT INTO actor_role (id, name, created_at, updated_at) VALUES
+  (1, 'admin',       NOW(), NOW()),
+  (2, 'client',      NOW(), NOW()),
+  (3, 'agent',       NOW(), NOW()),
+  (4, 'property_owner', NOW(), NOW()),
+  (5, 'sales_office', NOW(), NOW())
+ON DUPLICATE KEY UPDATE updated_at = VALUES(updated_at), name = VALUES(name);
+
+INSERT INTO property_ownership_role (id, name, created_at, updated_at) VALUES
+  (1, 'primary', NOW(), NOW()),
+  (2, 'co-owner', NOW(), NOW())
+ON DUPLICATE KEY UPDATE updated_at = VALUES(updated_at), name = VALUES(name);
+
+INSERT INTO lookup_document_type (id, name) VALUES
+  (1, 'title_deed'),
+  (2, 'survey_report'),
+  (3, 'inspection_report')
+ON DUPLICATE KEY UPDATE name = VALUES(name);
+
+COMMIT;

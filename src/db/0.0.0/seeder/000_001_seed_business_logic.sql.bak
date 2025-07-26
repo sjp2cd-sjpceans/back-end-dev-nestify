@@ -1,0 +1,262 @@
+SET FOREIGN_KEY_CHECKS = 0;
+START TRANSACTION;
+
+INSERT INTO user_archive (id, user_name, archived_at)
+VALUES
+  (1, 'john_doe',       NOW()),
+  (2, 'jane_smith',     NOW()),
+  (3, 'alice_walker',   NOW()),
+  (4, 'bob_builder',    NOW()),
+  (5, 'charlie_brown',  NOW()),
+  (6, 'david_jones',    NOW()),
+  (7, 'eva_green',      NOW()),
+  (8, 'frank_white',    NOW()),
+  (9, 'gina_black',     NOW()),
+  (10,'harry_potter',   NOW()),
+  (11,'irene_adler',    NOW()),
+  (12,'jack_sparrow',   NOW())
+ON DUPLICATE KEY UPDATE
+  archived_at = VALUES(archived_at);
+
+INSERT INTO name (id, first_name, middle_name, last_name, suffix, user_name)
+VALUES
+  (1,  'John',    'A.',    'Doe',      NULL, NULL),
+  (2,  'Jane',    NULL,    'Smith',    'Jr.',NULL),
+  (3,  'Acme',    NULL,    'Corp',     NULL, NULL),
+  (4,  'Alice',   NULL,    'Walker',   NULL, NULL),
+  (5,  'Bob',     'T.',    'Builder',  NULL, NULL),
+  (6,  'Charlie', 'K.',    'Brown',    NULL, NULL),
+  (7,  'David',   NULL,    'Jones',    NULL, NULL),
+  (8,  'Eva',     'L.',    'Green',    NULL, NULL),
+  (9,  'Frank',   NULL,    'White',    NULL, NULL),
+  (10, 'Gina',    'M.',    'Black',    NULL, NULL),
+  (11, 'Harry',   NULL,    'Potter',   NULL, NULL),
+  (12, 'Irene',   NULL,    'Adler',    NULL, NULL)
+ON DUPLICATE KEY UPDATE
+  first_name  = VALUES(first_name),
+  middle_name = VALUES(middle_name),
+  last_name   = VALUES(last_name),
+  suffix      = VALUES(suffix),
+  user_name   = VALUES(user_name);
+
+INSERT INTO email (id, email, user_name)
+VALUES
+  (1,  'admin@admin.admin',     NULL),
+  (2,  'user@one.com',          NULL),
+  (3,  'alice@onced.com',       NULL),
+  (4,  'bob@builder.com',       NULL),
+  (5,  'charlie@chaplin.org',   NULL),
+  (6,  'david@tall.net',        NULL),
+  (7,  'eve@online.co',         NULL),
+  (8,  'frank@sinatraz.io',     NULL),
+  (9,  'gina@gomey.ai',         NULL),
+  (10, 'harry@potter.edu',      NULL),
+  (11, 'irene@adler.gov',       NULL)
+ON DUPLICATE KEY UPDATE
+  email     = VALUES(email),
+  user_name = VALUES(user_name);
+
+INSERT INTO phone_number (id, phone_number, country_id, user_name)
+VALUES
+  (1,  '+63-912-345-6789', 5, NULL),
+  (2,  '+1-212-555-0100',   1, NULL),
+  (3,  '+44-20-7946-0958',  3, NULL),
+  (4,  '+61-2-9876-5432',   4, NULL),
+  (5,  '+81-3-1234-5678',   6, NULL),
+  (6,  '+86-10-8765-4321',  7, NULL),
+  (7,  '+1-416-555-0123',   2, NULL),
+  (8,  '+63-2-1234-5678',   5, NULL),
+  (9,  '+44-161-555-0145',  3, NULL),
+  (10, '+61-7-5555-0167',   4, NULL),
+  (11, '+81-6-5555-0189',   6, NULL),
+  (12, '+86-21-5555-0201',  7, NULL)
+ON DUPLICATE KEY UPDATE
+  phone_number = VALUES(phone_number),
+  country_id   = VALUES(country_id),
+  user_name    = VALUES(user_name);
+
+INSERT INTO property_owner (id, first_name, middle_name, last_name, suffix, owner_type_id)
+VALUES
+  (1,  'Alice',  NULL,        'Walker',     NULL, 1),
+  (2,  NULL,     NULL,        'Global LLC', NULL, 2),
+  (3,  'Bob',    'T.',        'Builder',    NULL, 1),
+  (4,  'Charlie',NULL,        'Brown',      NULL, 1),
+  (5,  'David',  NULL,        'Jones',      NULL, 1),
+  (6,  'Eva',    'L.',        'Green',      NULL, 1),
+  (7,  'Frank',  NULL,        'White',      NULL, 1),
+  (8,  'Gina',   'M.',        'Black',      NULL, 1),
+  (9,  'Harry',  NULL,        'Potter',     NULL, 1),
+  (10, 'Irene',  NULL,        'Adler',      NULL, 1),
+  (11, 'Jack',   NULL,        'Sparrow',    NULL, 1),
+  (12, 'Katie',  'N.',        'Nelson',     NULL, 1)
+ON DUPLICATE KEY UPDATE
+  first_name     = VALUES(first_name),
+  middle_name    = VALUES(middle_name),
+  last_name      = VALUES(last_name),
+  suffix         = VALUES(suffix),
+  owner_type_id  = VALUES(owner_type_id);
+
+INSERT INTO brokerage (id, company_name, description, phone_number_id, email_id, location_id)
+VALUES
+  (1,  'Prime Realty',      'Top-tier real estate brokerage', 1, 3, 1),
+  (2,  'Global Estates',    'International property experts', 2, 3, 2),
+  (3,  'Urban Homes',       'City residential specialists',    4, 4, 3),
+  (4,  'Suburbia Brokers',  'Suburban properties',            5, 5, 4),
+  (5,  'Country Lands Co.', 'Rural and farm properties',      6, 6, 1),
+  (6,  'Skyline Agents',    'Downtown skyscrapers',           7, 7, 2),
+  (7,  'Coastal Realty',    'Beachfront homes',               8, 8, 3),
+  (8,  'Mountain Retreats', 'Highland cabins',                9, 9, 4),
+  (9,  'Metro Commercial',  'Office & retail',                10,10,1),
+  (10, 'Industrial Hub',    'Factories & warehouses',         11,11,2),
+  (11, 'Green Develops',    'Eco‑friendly properties',        12,12,3),
+  (12, 'Family First RE',   'Neighborhood specialists',       1, 1, 4)
+ON DUPLICATE KEY UPDATE
+  company_name    = VALUES(company_name),
+  description     = VALUES(description),
+  phone_number_id = VALUES(phone_number_id),
+  email_id        = VALUES(email_id),
+  location_id     = VALUES(location_id);
+
+INSERT INTO broker (id, name_id, description, user_name, brokerage_id, phone_number_id, email_id)
+VALUES
+  (1,  1,  'Senior broker specializing in condos',       NULL, 1, 1, 1),
+  (2,  2,  'Commercial real estate expert',              NULL, 2, 2, 2),
+  (3,  3,  'Residential listings guru',                  NULL, 3, 4, 4),
+  (4,  4,  'Suburban market specialist',                 NULL, 4, 5, 5),
+  (5,  5,  'Rural land negotiator',                     NULL, 5, 6, 6),
+  (6,  6,  'High-rise deals broker',                    NULL, 6, 7, 7),
+  (7,  7,  'Beachfront property liaison',               NULL, 7, 8, 8),
+  (8,  8,  'Mountain cabin consultant',                 NULL, 8, 9, 9),
+  (9,  9,  'Metro office coordinator',                  NULL, 9,10,10),
+  (10, 10, 'Industrial lease specialist',               NULL,10,11,11),
+  (11, 11, 'Eco‑property champion',                     NULL,11,12,12),
+  (12, 12, 'Family home advisor',                       NULL,12, 1, 1)
+ON DUPLICATE KEY UPDATE
+  name_id          = VALUES(name_id),
+  description      = VALUES(description),
+  user_name        = VALUES(user_name),
+  brokerage_id     = VALUES(brokerage_id),
+  phone_number_id  = VALUES(phone_number_id),
+  email_id         = VALUES(email_id);
+
+INSERT INTO agent (id, name_id, description, user_name, brokerage_id, phone_number_id, email_id)
+VALUES
+  (1,  1,  'Leads residential sales',           NULL, 1, 1, 1),
+  (2,  2,  'Handles corporate accounts',        NULL, 2, 2, 2),
+  (3,  3,  'City apartments specialist',        NULL, 3, 4, 4),
+  (4,  4,  'Family homes expert',               NULL, 4, 5, 5),
+  (5,  5,  'Farm & ranch liaison',              NULL, 5, 6, 6),
+  (6,  6,  'Skyscraper rental agent',           NULL, 6, 7, 7),
+  (7,  7,  'Beach property coordinator',        NULL, 7, 8, 8),
+  (8,  8,  'Mountain retreats consultant',      NULL, 8, 9, 9),
+  (9,  9,  'Office leasing associate',          NULL, 9,10,10),
+  (10, 10, 'Warehouse sales rep',               NULL,10,11,11),
+  (11, 11, 'Green building specialist',         NULL,11,12,12),
+  (12, 12, 'Neighborhood outreach agent',       NULL, 1, 1, 1)
+ON DUPLICATE KEY UPDATE
+  name_id          = VALUES(name_id),
+  description      = VALUES(description),
+  user_name        = VALUES(user_name),
+  brokerage_id     = VALUES(brokerage_id),
+  phone_number_id  = VALUES(phone_number_id),
+  email_id         = VALUES(email_id);
+
+INSERT INTO land_developer (id, name, description, user_name, location_id, phone_number_id, email_id)
+VALUES
+  (1,  'GreenFields Dev',   'Residential subdivisions', NULL, 4, 3, 3),
+  (2,  'Urban Expanders',    'City brownfield projects', NULL, 3, 4, 4),
+  (3,  'Suburbia Land Co.',  'Housing tract specialists',NULL, 2, 5, 5),
+  (4,  'Farmstead Group',    'Rural land parcels',      NULL, 1, 6, 6),
+  (5,  'Skyline Builders',   'High‑rise foundations',   NULL, 2, 7, 7),
+  (6,  'Coastal Plots Ltd.', 'Beachfront development',  NULL, 3, 8, 8),
+  (7,  'Highland Estates',   'Mountain retreats',       NULL, 4, 9, 9),
+  (8,  'Metro Core Land',    'Downtown infill projects',NULL, 1,10,10),
+  (9,  'Industrial Parks',   'Factory & warehouse land',NULL, 2,11,11),
+  (10, 'EcoGrowth Devs',     'Sustainable communities', NULL, 3,12,12),
+  (11, 'Neighborhood Inc.',  'Local zoning experts',    NULL, 4, 1, 1),
+  (12, 'Family Plots',       'Small‑lot residential',   NULL, 1, 2, 2)
+ON DUPLICATE KEY UPDATE
+  name             = VALUES(name),
+  description      = VALUES(description),
+  user_name        = VALUES(user_name),
+  location_id      = VALUES(location_id),
+  phone_number_id  = VALUES(phone_number_id),
+  email_id         = VALUES(email_id);
+
+INSERT INTO client (id, name_id, user_name, phone_number_id, email_id)
+VALUES
+  (1,  1,  NULL, 1, 1),
+  (2,  2,  NULL, 2, 2),
+  (3,  3,  NULL, 4, 4),
+  (4,  4,  NULL, 5, 5),
+  (5,  5,  NULL, 6, 6),
+  (6,  6,  NULL, 7, 7),
+  (7,  7,  NULL, 8, 8),
+  (8,  8,  NULL, 9, 9),
+  (9,  9,  NULL,10,10),
+  (10, 10, NULL,11,11),
+  (11, 11, NULL,12,12),
+  (12, 12, NULL, 1, 1)
+ON DUPLICATE KEY UPDATE
+  name_id         = VALUES(name_id),
+  user_name       = VALUES(user_name),
+  phone_number_id = VALUES(phone_number_id),
+  email_id        = VALUES(email_id);
+
+INSERT INTO property
+  (id, name,        description,        price,    is_sold, is_for_sale, sale_price, property_type_id,
+   dimension_area, location_id, land_developer_id, property_owner_id)
+VALUES
+  (1,  'Lot 42A',      'Lovely corner lot',       150000.00, 0,1,NULL,4,500.0,1,1),
+  (2,  'Downtown Apt', '2BR apartment',           300000.00, 0,1,NULL,1,80.0, 2,1),
+  (3,  'Suburbia Plot','Quiet cul-de-sac lot',    120000.00, 0,1,NULL,4,450.0,3,2),
+  (4,  'Farm Acre',    '10‑acre farm field',       250000.00, 0,1,NULL,5,10000,4,5),
+  (5,  'City Loft',    'Open‑plan loft',          220000.00, 0,1,NULL,1,60.0, 2,3),
+  (6,  'Retail Space', 'Prime street frontage',    500000.00, 0,1,NULL,2,200.0,2,4),
+  (7,  'Warehouse',    'High‑ceiling warehouse',  400000.00, 0,1,NULL,3,1500.0,5,6),
+  (8,  'Beach Villa',  'Ocean‑view property',     750000.00, 0,1,NULL,1,350.0,7,7),
+  (9,  'Mountain Cabin','Secluded getaway',        300000.00, 0,1,NULL,1,120.0,8,8),
+  (10, 'Office Suite', 'Downtown offices',        600000.00, 0,1,NULL,2,250.0,9,9),
+  (11, 'Eco Home',     'Sustainable design',      350000.00, 0,1,NULL,1,90.0,10,11),
+  (12, 'Family Home',  '4BR in quiet neighborhood',280000.00,0,1,NULL,1,140.0,12,12)
+ON DUPLICATE KEY UPDATE
+  name               = VALUES(name),
+  description        = VALUES(description),
+  price              = VALUES(price),
+  is_sold            = VALUES(is_sold),
+  is_for_sale        = VALUES(is_for_sale),
+  sale_price         = VALUES(sale_price),
+  property_type_id   = VALUES(property_type_id),
+  dimension_area     = VALUES(dimension_area),
+  location_id        = VALUES(location_id),
+  land_developer_id  = VALUES(land_developer_id),
+  property_owner_id  = VALUES(property_owner_id);
+
+
+INSERT INTO brokerage_property (brokerage_id, property_id) VALUES
+  (1,2),(1,3),(2,3),(2,4),(3,4),(3,5),(4,5),(4,6),(5,6),(5,7),(6,7),(6,8)
+ON DUPLICATE KEY UPDATE
+  brokerage_id = VALUES(brokerage_id);
+
+INSERT INTO broker_property (broker_id, property_id) VALUES
+  (1,3),(2,4),(3,5),(4,6),(5,7),(6,8),(7,9),(8,10),(9,11),(10,12),(11,1),(12,2)
+ON DUPLICATE KEY UPDATE
+  broker_id = VALUES(broker_id);
+
+INSERT INTO agent_property (agent_id, property_id) VALUES
+  (1,3),(2,4),(3,5),(4,6),(5,7),(6,8),(7,9),(8,10),(9,11),(10,12),(11,1),(12,2)
+ON DUPLICATE KEY UPDATE
+  agent_id = VALUES(agent_id);
+
+INSERT INTO client_agent (client_id, agent_id) VALUES
+  (1,2),(2,1),(3,2),(4,1),(5,3),(6,4),(7,5),(8,6),(9,7),(10,8),(11,9),(12,10)
+ON DUPLICATE KEY UPDATE
+  client_id = VALUES(client_id);
+
+INSERT INTO client_property (client_id, property_id) VALUES
+  (1,2),(2,1),(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(9,9),(10,10),(11,11),(12,12)
+ON DUPLICATE KEY UPDATE
+  client_id = VALUES(client_id);
+
+COMMIT;
+SET FOREIGN_KEY_CHECKS = 1;
