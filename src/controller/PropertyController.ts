@@ -21,10 +21,18 @@ export class PropertyController {
   }
 
   static async getRange(req: Request, res: Response) {
-    const offset = Number(req.query.offset) || 0;
-    const limit = Number(req.query.limit) || 10;
-    const items = await svc.retrieveByRange(offset, limit);
-    res.json(items);
+
+    const offset = parseInt(req.query.offset as string) || 0;
+    const limit = parseInt(req.query.limit as string) || 10;
+
+    try {
+
+      const items = await svc.retrieveByRange(offset, limit);
+      res.json(items);
+    } catch (err) {
+
+      res.status(500).json({ error: `Failed to fetch items by range: offset=${offset}, limit=${limit}` });
+    }
   }
 
   static async query(req: Request, res: Response) {
