@@ -3,7 +3,8 @@ import './db/connection';
 import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 
-import propertyRoute from './route/Property'
+import propertyRoute from './route/property'
+import imageRoute from './route/image'
 
 const port = process.env.NESTIFY_API_PORT || 3000;
 const hostname = 'localhost'
@@ -30,6 +31,7 @@ async function bootstrap() : Promise<void> {
 
   //REM: Property routes (read open; write protected)
   app.use('/properties', propertyRoute);
+  app.use('/images', imageRoute);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     console.error(err);
