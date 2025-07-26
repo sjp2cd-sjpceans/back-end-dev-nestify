@@ -14,12 +14,12 @@ async function bootstrap() : Promise<void> {
   // app.set('trust proxy', true); //REM: Trust the first proxy for secure headers
   app.use(bodyParser.json({ limit: '10mb' }));
   app.use(bodyParser.urlencoded({ limit: '10mb', extended: true, parameterLimit: 10000 }));
-  app.use(express.urlencoded({ extended: true, limit: '10mb' })); //REM: For parsing application/x-www-form-urlencoded
-  app.use(express.text({ limit: '10mb' })); //REM: For parsing text/plain
-  app.use(express.raw({ limit: '10mb' })); //REM: For parsing application/octet-stream
+  app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' })); //REM: For parsing application/x-www-form-urlencoded
+  app.use(bodyParser.text({ limit: '10mb' })); //REM: For parsing text/plain
+  app.use(bodyParser.raw({ limit: '10mb' })); //REM: For parsing application/octet-stream
 
-  app.use(express.json());
-  app.use('/assets', express.static('public/assets'));
+  app.use('/test/asset', express.static('public/test/asset'));
+  app.use('/main/asset', express.static('public/main/asset'));
 
   app.get(['/'], (_req, res) => {
     res.send(`Welcome to the Nestify API! SERVER PORT ${process.env.NESTIFY_API_PORT}...`);
