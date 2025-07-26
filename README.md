@@ -1,11 +1,13 @@
 
 ## About It.
 We are @dev phase, doing basic/rudimentary Real Estate stuff.
+#
+## Prerequisites
+- **Database System:** **`MySQL`** Relational Database Management System
+<br>`(For easier setup [MariaDB], consider using a cross-platform bundled solution like XAMPP)`
 
-## Requirement
-- `MySQL` RDBM software (Recommended: a bundle web dev tools like `XAMPP`)
-- ...
-
+- **Runtime Environment:** **`Node.js`** version `20.5.x or newer`
+#
 ## Configuring Database
 #### Explicitly create new database
 - `dev_nestify`
