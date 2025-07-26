@@ -26,3 +26,15 @@ npm run migrate
 npm run seed
 ```
   - Now check the said `(dev_nestify)` database and its corresponding `(29)` tables
+
+## Run
+```bash
+#REM: In developemnt
+npm run dev
+```
+```bash
+#REM: Or in Production
+npm run build
+npm start
+```
+- Keep in mind this is only running on your local machine, be sure to set up your .env.production with your live production settings, and never commit or expose it publicly.
