@@ -2,8 +2,8 @@
   "name": "back-end-dev-nestify",
   "version": "0.0.1",
   "scripts": {
-    "build": "tsc",
-    "start": "cross-env NODE_ENV=production node --require tsconfig-paths/register build/index.js",
+    "build": "tsc && tsc-alias",
+    "start": "cross-env NODE_ENV=production node build/index.js",
     "dev": "ts-node-dev --respawn --require tsconfig-paths/register src/index.ts",
     "migrate": "ts-node --require tsconfig-paths/register -- src/db/run_migration.ts",
     "seed": "ts-node --require tsconfig-paths/register -- src/db/run_seeder.ts"
@@ -24,6 +24,7 @@
     "dotenv": "^17.2.0",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.6"
   }
