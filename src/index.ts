@@ -3,7 +3,7 @@ import './db/connection';
 import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 
-// import propertyRouter from '@dev_nestify/route/property';
+import propertyRoute from './route/Property'
 
 const port = process.env.NESTIFY_API_PORT || 3000;
 const hostname = 'localhost'
@@ -29,7 +29,7 @@ async function bootstrap() : Promise<void> {
   app.get('/check-123', (_req: Request, res: Response) => res.send('testing, testing, 1, 2, 3...'));
 
   //REM: Property routes (read open; write protected)
-  // app.use('/api/property', propertyRouter);
+  app.use('/properties', propertyRoute);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     console.error(err);
