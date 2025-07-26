@@ -37,4 +37,4 @@ npm run dev
 npm run build
 npm start
 ```
-- Keep in mind this is only running on your local machine, be sure to set up your .env.production with your live production settings, and never commit or expose it publicly.
+- Keep in mind this is only running on your local machine, and be sure to set up your `.env.production` with your live production settings, and never commit or expose it publicly.
