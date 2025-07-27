@@ -7,6 +7,7 @@ const router = Router();
 router.get('/',       ImageController.getAll);
 router.get('/range',  ImageController.getRange);
 router.get('/:id',    ImageController.getById);
+router.get('/:id/show',ImageController.getByIdAndShow);
 router.post('/query', ImageController.query);
 
 router.post('/',      verifyJwt, ImageController.create);

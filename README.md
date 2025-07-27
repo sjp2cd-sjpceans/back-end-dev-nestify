@@ -65,6 +65,7 @@ npm start
 | `GET`   | `/images`                  | No            | Get all images                       | OK     |
 | `GET`   | `/images/range?offset=3&limit=2`            | No            | Get images within a range (e.g., pagination, date, or size range) | OK     |
 | `GET`   | `/images/:id`              | No            | Get an image by ID                   | OK     |
+| `GET`   | `/images/:id/show`         | No            | Get an image by ID and directly show it| OK     |
 | `POST`  | `/images/query`            | No            | Query images with filters (request body) | *      |
 | `POST`  | `/images`                  | Yes (JWT)     | Upload a new image                   | *      |
 | `PUT`   | `/images/:id`              | Yes (JWT)     | Update an image by ID                | *      |

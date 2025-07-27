@@ -33,7 +33,7 @@ async function bootstrap() : Promise<void> {
   app.use('/images', imageRoute);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    console.error(err);
+    console.error("[CLI]: ",err);
     res.status(500).json({ error: 'Internal Server Error' });
   });
 

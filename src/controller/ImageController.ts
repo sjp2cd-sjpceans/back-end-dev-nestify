@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { ImageService } from '@dev_nestify/service/ImageService';
 import { IImageRow } from '@dev_nestify/model/IImage';
+import * as path from 'path'
+import * as fs from 'fs';
 
 const svc = new ImageService();
 
@@ -40,6 +42,40 @@ export class ImageController {
       } else {
         next(err);
       }
+    }
+  }
+
+    static async getByIdAndShow(req: Request<{ id: string }>, res: Response, next: NextFunction) {
+    const id = Number(req.params.id);
+    if (Number.isNaN(id) || id <= 0) {
+      return res.status(400).json({ error: 'Invalid `id`' });
+    }
+
+    try {
+      const image = await svc.retrieveById(id);
+
+      if (!image || typeof image.url !== 'string' || image.url.trim() === '') {
+        return res.status(404).json({ error: `Image ${id} not found` });
+      }
+
+      if (!/\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(image.url)) {
+        return res.status(400).json({ error: 'Invalid image format' });
+      }
+
+      const filePath = path.join(__dirname, '../../public/', image.url);
+
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ error: `Image file not found on server: ${filePath}` });
+      }
+
+      res.sendFile(filePath, (err) => {
+        
+        if (err) next(err);
+      });
+
+    } catch (err: any) {
+      
+      next(err);
     }
   }
 
