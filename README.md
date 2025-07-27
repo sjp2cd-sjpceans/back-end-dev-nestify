@@ -104,13 +104,10 @@ npm start
 > [!IMPORTANT]
 > Work continues on the remaining endpoints
 
-- [x] properties
-- [x] images
-- [ ] actor_profile
-- [ ] actor_client
-- [ ] actor_agent
-- [ ] actor_sales_office
-- [ ] user_account
-- [ ] user_client
-- [ ] user_agent
+- [x] /properties
+- [x] /images
+- [ ] /sign-up
+- [ ] /sign-in
+- [ ] /users
+- [ ] /actors
 - and more...
