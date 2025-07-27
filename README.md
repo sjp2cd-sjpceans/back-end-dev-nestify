@@ -1,13 +1,17 @@
 
 ## About It.
 We are @dev phase, doing basic/rudimentary Real Estate stuff.
-#
+
+<br/>
+
 ## Prerequisites
 - **Database System:** **`MySQL`** Relational Database Management System
 <br>`(For easier setup [MariaDB], consider using a cross-platform bundled solution like XAMPP)`
 
 - **Runtime Environment:** **`Node.js`** version `20.5.x or newer`
-#
+
+<br/>
+
 ## Configuring Database
 #### Explicitly create new database
 - `dev_nestify`
@@ -29,21 +33,35 @@ npm run seed
 ```
   - Now check the said `(dev_nestify)` database and its corresponding `(29)` tables
 
-## Run
+<br/>
+
+## Setting Up Project Dependencies
 ```bash
-#REM: In developemnt
+npm install
+```
+
+<br/>
+
+## Run
+In developemnt
+```bash
 npm run dev
 ```
+<br/>
+
+Or in Production
 ```bash
-#REM: Or in Production
 npm run build
 npm start
 ```
 - Keep in mind this is only running on your local machine, and be sure to set up your `.env.production` with your live production settings, and never commit or expose it publicly.
+<br/>
 
 ### Base URLs
 - **Development**: `http://localhost:3001`  
-##
+
+<br/>
+
 ## Property Object API Endpoints
 | Method | Endpoint                     | Auth Required | Description                          | Test |
 |--------|------------------------------|---------------|--------------------------------------|--------|
@@ -58,7 +76,9 @@ npm start
 | POST   | `/properties/delete`         | Yes (JWT)     | Delete properties by filter payload  | *      |
 | POST   | `/properties/delete-ids`     | Yes (JWT)     | Delete properties by list of IDs     | *      |
 ---
-##
+
+<br/>
+
 ## Image Object API Endpoints  
 | Method  | Endpoint                   | Auth Required | Description                          | Test   |
 |---------|----------------------------|---------------|--------------------------------------|--------|
