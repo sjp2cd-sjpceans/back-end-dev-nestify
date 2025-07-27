@@ -95,5 +95,22 @@ npm start
 | `POST`  | `/images/delete-ids`       | Yes (JWT)     | Delete images by a list of IDs       | *      |
 ---
 
-### Authentication*
+> [!NOTE]
 > Protected routes require a valid JWT in the `Authorization` header:  `Authorization: Bearer <the_token>`.
+
+</br>
+</br>
+
+> [!IMPORTANT]
+> Work continues on the remaining endpoints
+
+- [x] properties
+- [x] images
+- [ ] actor_profile
+- [ ] actor_client
+- [ ] actor_agent
+- [ ] actor_sales_office
+- [ ] user_account
+- [ ] user_client
+- [ ] user_agent
+- and more...
