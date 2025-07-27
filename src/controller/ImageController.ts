@@ -65,6 +65,7 @@ export class ImageController {
       const filePath = path.join(__dirname, '../../public/', image.url);
 
       if (!fs.existsSync(filePath)) {
+        
         return res.status(404).json({ error: `Image file not found on server: ${filePath}` });
       }
 
