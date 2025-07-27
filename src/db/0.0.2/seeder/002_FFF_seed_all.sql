@@ -336,17 +336,17 @@ ON DUPLICATE KEY UPDATE
  document_url=VALUES(document_url);
 
 INSERT INTO image (id, url, alt_text, is_active, format) VALUES
- (1,'/test/asset/img/default/default_000.jpg','Stark Penthouse',TRUE,'jpg'),
- (2,'/test/asset/img/default/default_000.jpg','Mabini Condo',TRUE,'jpg'),
- (3,'/test/asset/img/default/default_000.jpg','Toronto Townhouse',TRUE,'jpg'),
- (4,'/test/asset/img/default/default_000.jpg','Wayne Villa',TRUE,'jpg'),
- (5,'/test/asset/img/default/default_000.jpg','Paradise Cottage',TRUE,'jpg'),
- (6,'/test/asset/img/default/default_000.jpg','Seoul Loft',TRUE,'jpg'),
- (7,'/test/asset/img/default/default_000.jpg','Demon HQ Studio',TRUE,'jpg'),
- (8,'/test/asset/img/default/default_000.jpg','Gotham Duplex',TRUE,'jpg'),
- (9,'/test/asset/img/default/default_000.jpg','Metro Bungalow',TRUE,'jpg'),
- (10,'/test/asset/img/default/default_000.jpg','Central Park Apt',TRUE,'jpg'),
- (11,'/test/asset/img/actor/1_elon_musk_in_iron_man_suit.jpg','Armored Ello Musk',TRUE,'jpg')
+ (1,'/public/test/asset/img/default/default_000.jpg','Stark Penthouse',TRUE,'jpg'),
+ (2,'/public/test/asset/img/default/default_000.jpg','Mabini Condo',TRUE,'jpg'),
+ (3,'/public/test/asset/img/default/default_000.jpg','Toronto Townhouse',TRUE,'jpg'),
+ (4,'/public/test/asset/img/default/default_000.jpg','Wayne Villa',TRUE,'jpg'),
+ (5,'/public/test/asset/img/default/default_000.jpg','Paradise Cottage',TRUE,'jpg'),
+ (6,'/public/test/asset/img/default/default_000.jpg','Seoul Loft',TRUE,'jpg'),
+ (7,'/public/test/asset/img/default/default_000.jpg','Demon HQ Studio',TRUE,'jpg'),
+ (8,'/public/test/asset/img/default/default_000.jpg','Gotham Duplex',TRUE,'jpg'),
+ (9,'/public/test/asset/img/default/default_000.jpg','Metro Bungalow',TRUE,'jpg'),
+ (10,'/public/test/asset/img/default/default_000.jpg','Central Park Apt',TRUE,'jpg'),
+ (11,'/public/test/asset/img/actor/1_elon_musk_in_iron_man_suit.jpg','Armored Ello Musk',TRUE,'jpg')
 ON DUPLICATE KEY UPDATE
  url=VALUES(url),
  alt_text=VALUES(alt_text),
