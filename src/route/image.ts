@@ -10,7 +10,7 @@ router.get('/:id',    ImageController.getById);
 router.get('/:id/show',ImageController.getByIdAndShow);
 router.post('/query', ImageController.query);
 
-router.post('/',      verifyJwt, ImageController.create);
+router.post('/',      /*verifyJwt,*/ ImageController.uploadMiddleware, ImageController.create);
 router.put('/:id',    verifyJwt, ImageController.update);
 router.put('/',       verifyJwt, ImageController.bulkUpdate);
 router.delete('/:id', verifyJwt, ImageController.deleteById);

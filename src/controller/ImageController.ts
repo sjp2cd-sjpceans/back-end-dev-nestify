@@ -4,20 +4,127 @@ import { IImageRow } from '@dev_nestify/model/IImage';
 import * as path from 'path'
 import * as fs from 'fs';
 
+import multer from 'multer';
+
+const relativePublicDir = ( process.env.NODE_ENV === 'production' ) ? 'public/main' : 'public/test';
+
+const relativeUploadDir = `/${relativePublicDir}/asset/upload`;
+
+const relativeUploadImageDir = `${relativeUploadDir}/img`;
+
+const uploadImageAndNamingStorage = multer.diskStorage({
+
+  destination: (_req, _file, nextFunc) => {
+
+    const uploadDir = path.join(__dirname, `../../${relativeUploadImageDir}`);
+    // const uploadDir = relativeUploadImageDir;
+
+    if (!fs.existsSync(uploadDir)) {
+
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    nextFunc(null, uploadDir);
+  },
+
+  filename: (_req, file, nextFunc) => {
+
+    const now: Date         = new Date();
+    const y: number         = now.getFullYear();               
+    const d: number         = now.getDate(); //REM: 1–31
+    const MM: string        = String(now.getMonth() + 1).padStart(2, '0');
+    const H: number         = now.getHours(); //REM: 0–23
+    const mm: string        = String(now.getMinutes()).padStart(2, '0');
+    const s: string         = String(now.getSeconds()).padStart(2, '0');
+    const ms: string        = String(now.getMilliseconds()).padStart(3, '0');
+    const nsBigInt: bigint  = process.hrtime.bigint();
+
+    // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const uniqueSuffix = `${y}-${d}-${MM}-${H}-${mm}-${s}-${ms}-${nsBigInt}`;
+    const ext = path.extname(file.originalname);
+    nextFunc(null, path.parse(file.originalname).name + '_' + uniqueSuffix + ext);
+  }
+});
+
+const imageFilter = (_req: Request, file: Express.Multer.File, nextFunc: multer.FileFilterCallback) => {
+
+  const allowedTypes = [
+    'image/jpeg',        //REM: .jpeg, .jpg
+    'image/png',
+    'image/gif',
+    'image/webp',
+    'image/bmp',
+    'image/svg+xml'     //RME: .svg
+    // 'image/tiff',        //REM: .tif, .tiff
+    // 'image/x-icon',      //REM: .ico
+    // 'image/vnd.microsoft.icon', //REM: .ico alternative
+    // 'image/avif',        //REM: .avif
+    // 'image/heic',        //REM: .heic (Apple)
+    // 'image/heif'         //RME: .heif (Apple)
+  ];
+
+  if (allowedTypes.includes(file.mimetype)) {
+
+    nextFunc(null, true);
+  } else {
+
+    nextFunc(new Error(`Only image files are allowed! [${allowedTypes.join(', ')}]`));
+  }
+};
+
+const uploadImageMiddleware = multer({ 
+  storage: uploadImageAndNamingStorage,
+  fileFilter: imageFilter,
+  limits: { fileSize: 5 * 1024 * 1024 } //REM: 5MB limit
+});
+
 const svc = new ImageService();
 
 export class ImageController {
-  static async create(req: Request<{}, IImageRow, Partial<IImageRow>>, res: Response, next: NextFunction) {
+
+  static uploadMiddleware = uploadImageMiddleware.single('image');
+
+  static async create(req: Request, res: Response, next: NextFunction) {
+
     try {
-      if (Object.keys(req.body).length === 0) {
-        return res.status(400).json({ error: 'Request body cannot be empty' });
+
+      if (!req.file) {
+
+        return res.status(400).json({ error: 'No image file uploaded' });
       }
-      const created = await svc.create(req.body);
+
+      const fileUrl = `${relativeUploadImageDir}/${req.file.filename}`;
+      
+      const imageData: Partial<IImageRow> = {
+
+        url: fileUrl,
+        alt_text: req.body.altText || null,
+        is_active: req.body.isActive !== 'false',
+        format: req.file.mimetype.split('/')[1] || null
+      } as Partial<IImageRow>;
+
+      const created = await svc.create(imageData);
       res.status(201).json(created);
     } catch (err) {
+
+      if (req.file) {
+        fs.unlink(req.file.path, () => {});
+      }
       next(err);
     }
   }
+
+  // static async create(req: Request<{}, IImageRow, Partial<IImageRow>>, res: Response, next: NextFunction) {
+  //   try {
+  //     if (Object.keys(req.body).length === 0) {
+  //       return res.status(400).json({ error: 'Request body cannot be empty' });
+  //     }
+  //     const created = await svc.create(req.body);
+  //     res.status(201).json(created);
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // }
 
   static async getAll(_req: Request, res: Response, next: NextFunction) {
     try {
@@ -28,30 +135,50 @@ export class ImageController {
     }
   }
 
-  static async getById(req: Request<{ id: string }>, res: Response, next: NextFunction) {
+  static async getById(
+    req: Request<{ id: string }>, 
+    res: Response, 
+    next: NextFunction
+  ) {
+
     const id = Number(req.params.id);
+
     if (Number.isNaN(id) || id <= 0) {
+
       return res.status(400).json({ error: 'Invalid `id`' });
     }
+
     try {
+
       const item = await svc.retrieveById(id);
       res.json(item);
     } catch (err: any) {
+
       if (err.message === 'Not Found') {
+
         res.status(404).json({ error: `Image ${id} not found` });
       } else {
+
         next(err);
       }
     }
   }
 
-    static async getByIdAndShow(req: Request<{ id: string }>, res: Response, next: NextFunction) {
+  static async getByIdAndShow(
+    req: Request<{ id: string }>, 
+    res: Response, 
+    next: NextFunction
+  ) {
+
     const id = Number(req.params.id);
+
     if (Number.isNaN(id) || id <= 0) {
+
       return res.status(400).json({ error: 'Invalid `id`' });
     }
 
     try {
+
       const image = await svc.retrieveById(id);
 
       if (!image || typeof image.url !== 'string' || image.url.trim() === '') {
@@ -62,7 +189,7 @@ export class ImageController {
         return res.status(400).json({ error: 'Invalid image format' });
       }
 
-      const filePath = path.join(__dirname, '../../public/', image.url);
+      const filePath = path.join(__dirname, '../../', image.url);
 
       if (!fs.existsSync(filePath)) {
         
