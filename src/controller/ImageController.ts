@@ -12,7 +12,7 @@ const relativeUploadDir = `/${relativePublicDir}/asset/upload`;
 
 const relativeUploadImageDir = `${relativeUploadDir}/img`;
 
-const uploadImageAndNamingStorage = multer.diskStorage({
+const uploadImageStorage = multer.diskStorage({
 
   destination: (_req, _file, nextFunc) => {
 
@@ -73,7 +73,7 @@ const imageFilter = (_req: Request, file: Express.Multer.File, nextFunc: multer.
 };
 
 const uploadImageMiddleware = multer({ 
-  storage: uploadImageAndNamingStorage,
+  storage: uploadImageStorage,
   fileFilter: imageFilter,
   limits: { fileSize: 5 * 1024 * 1024 } //REM: 5MB limit
 });
@@ -93,7 +93,7 @@ export class ImageController {
         return res.status(400).json({ error: 'No image file uploaded' });
       }
 
-      const fileUrl = `${relativeUploadImageDir}/${req.file.filename}`;
+      const fileUrl = `/upload/img/${req.file.filename}`;
       
       const imageData: Partial<IImageRow> = {
 
@@ -189,11 +189,11 @@ export class ImageController {
         return res.status(400).json({ error: 'Invalid image format' });
       }
 
-      const filePath = path.join(__dirname, '../../', image.url);
+      const filePath = path.join(__dirname, `../../${relativePublicDir}/asset/`, image.url);
 
       if (!fs.existsSync(filePath)) {
         
-        return res.status(404).json({ error: `Image file not found on server: ${filePath}` });
+        return res.status(404).json({ error: `Image file not found on server: ${image.url}` });
       }
 
       res.sendFile(filePath, (err) => {
