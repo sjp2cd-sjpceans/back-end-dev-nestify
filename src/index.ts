@@ -2,17 +2,23 @@ import './db/connection';
 
 import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
-import propertyRoute from './route/property'
-import imageRoute from './route/image'
+import propertyRoute from './route/property';
+import imageRoute from './route/image';
+import authRoute from './route/auth';
 
-const port = process.env.NESTIFY_API_PORT || 3000;
-const hostname = 'localhost'
+const port = process.env.NESTIFY_API_PORT || 3001;
+const hostname = 'localhost';
 
 async function bootstrap() : Promise<void> {
 
   const app = express();
   // app.set('trust proxy', true); //REM: Trust the first proxy for secure headers
+  
+  // Enable CORS
+  app.use(cors());
+  
   app.use(bodyParser.json({ limit: '10mb' }));
   app.use(bodyParser.urlencoded({ limit: '10mb', extended: true, parameterLimit: 10000 }));
   app.use(bodyParser.text({ limit: '10mb' })); //REM: For parsing text/plain
@@ -28,6 +34,9 @@ async function bootstrap() : Promise<void> {
   //REM: Health-check
   app.get('/check-123', (_req: Request, res: Response) => res.send('testing, testing, 1, 2, 3...'));
 
+  //REM: Auth routes
+  app.use('/auth', authRoute);
+  
   //REM: Property routes (read open; write protected)
   app.use('/properties', propertyRoute);
   app.use('/images', imageRoute);
