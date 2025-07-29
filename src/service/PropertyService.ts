@@ -1,4 +1,4 @@
-import { IPropertyRow } from '@dev_nestify/model/IProperty';
+import { IPropertyRow, IEnrichedPropertyRow } from '@dev_nestify/model/IProperty';
 import { PropertyRepository } from '@dev_nestify/repository/PropertyRepository';
 
 export class PropertyService {
@@ -10,6 +10,16 @@ export class PropertyService {
 
   retrieveAll(): Promise<IPropertyRow[]> {
     return this.repo.retrieveAll();
+  }
+
+  // New method to retrieve enriched property data
+  retrieveAllEnriched(): Promise<IEnrichedPropertyRow[]> {
+    return this.repo.retrieveAllEnriched();
+  }
+
+  // New method to retrieve a single enriched property by ID
+  retrieveByIdEnriched(id: number): Promise<IEnrichedPropertyRow> {
+    return this.repo.retrieveByIdEnriched(id);
   }
 
   retrieveById(id: number): Promise<IPropertyRow> {

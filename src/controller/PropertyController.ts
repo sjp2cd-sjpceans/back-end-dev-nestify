@@ -11,23 +11,30 @@ class NotFoundError extends Error {
 export class PropertyController {
 
   static async create(req: Request<
-      {}, IPropertyRow, Partial<IPropertyRow>
-    >, 
-    res: Response, next: NextFunction) 
-  {
+    {}, // params
+    {}, // response body
+    {} // request body
+  >, res: Response, next: NextFunction) {
     try {
-      const payload = req.body;
-      if (!payload || Object.keys(payload).length === 0) {
-        return res.status(400).json({ error: 'Request body cannot be empty' });
-      }
-      const created = await svc.create(payload);
-      res.status(201).json(created);
+      const item = await svc.create(req.body);
+      res.status(201).json(item);
     } catch (err) {
       next(err);
     }
   }
 
+
   static async getAll(_req: Request, res: Response, next: NextFunction) {
+    try {
+      const items = await svc.retrieveAllEnriched();
+      res.json(items);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  // Keep the original method for basic property data if needed
+  static async getAllBasic(_req: Request, res: Response, next: NextFunction) {
     try {
       const items = await svc.retrieveAll();
       res.json(items);
@@ -42,7 +49,7 @@ export class PropertyController {
       return res.status(400).json({ error: 'Invalid `id` parameter' });
     }
     try {
-      const item = await svc.retrieveById(id);
+      const item = await svc.retrieveByIdEnriched(id);
       res.json(item);
     } catch (err: any) {
       if (err instanceof NotFoundError || err.message === 'Not Found') {
@@ -76,13 +83,9 @@ export class PropertyController {
     }
   }
 
-  static async query(req: Request<{}, IPropertyRow[], Partial<IPropertyRow>>, res: Response, next: NextFunction) {
-    const criteria = req.body;
-    if (!criteria || Object.keys(criteria).length === 0) {
-      return res.status(400).json({ error: 'Query criteria cannot be empty' });
-    }
+  static async query(req: Request, res: Response, next: NextFunction) {
     try {
-      const items = await svc.retrieveByPayloads(criteria);
+      const items = await svc.retrieveByPayloads(req.body);
       res.json(items);
     } catch (err) {
       next(err);
